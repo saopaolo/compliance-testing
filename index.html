@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FlowCompliance – Effortless Compliance</title>
+  <style>
+    /* Google-like minimalist design */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .centered-container {
+      text-align: center;
+      max-width: 600px;
+      padding: 20px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 400;
+      margin: 20px 0;
+      color: #1a73e8;
+    }
+
+    .tagline {
+      font-size: 18px;
+      color: #555;
+      margin: 15px 0;
+    }
+
+    /* Navigation */
+    .nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 14px;
+    }
+    .nav a {
+      margin: 0 10px;
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    .nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Form Styles */
+    label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    input[type="text"]:focus, select:focus {
+      outline: 1px solid #1a73e8;
+      border-color: #1a73e8;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    .btn-primary:hover {
+      background: #1967d2;
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #333;
+      border: 1px solid #d9d9d9;
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: #e8f0fe;
+    }
+
+    /* Output */
+    .policy-output {
+      margin-top: 20px;
+      text-align: left;
+      border: 1px solid #eee;
+      padding: 15px;
+      border-radius: 6px;
+      background: #f9f9f9;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      margin: 10px 0;
+      color: #444;
+    }
+
+    /* Code output */
+    .code-output {
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    textarea {
+      width: 100%;
+      font-family: 'Courier New', monospace;
+      background: #f1f1f1;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      resize: none;
+    }
+
+    /* Banner preview */
+    .banner {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      z-index: 1000;
+    }
+    .btn-banner {
+      margin: 8px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-accept { background: #1a73e8; color: white; }
+    .btn-decline { background: #e8f0fe; color: #1a73e8; }
+
+    /* Page sections */
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <div class="nav">
+    <a href="#" onclick="showPage('generate')">Generate</a>
+    <a href="#" onclick="showPage('preview')">Preview Banner</a>
+    <a href="#" onclick="showPage('widget')">Embed Widget</a>
+  </div>
+
+  <!-- Generate Page -->
+  <div id="generate" class="page active centered-container">
+    <h1>Create Your Policy</h1>
+    <form id="policyForm">
+      <label>Company Name:
+        <input type="text" id="companyName" required />
+      </label>
+
+      <label>Business Country:
+        <input type="text" id="country" placeholder="e.g. United States" required />
+      </label>
+
+      <label>Data Collected:
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="email"> Email</label>
+          <label><input type="checkbox" value="cookies"> Cookies</label>
+          <label><input type="checkbox" value="location"> Location Data</label>
+          <label><input type="checkbox" value="analytics"> Analytics</label>
+        </div>
+      </label>
+
+      <label>Target Regions:
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="EU"> EU (GDPR)</label>
+          <label><input type="checkbox" value="US"> US (CCPA)</label>
+          <label><input type="checkbox" value="AU"> Australia (APP)</label>
+        </div>
+      </label>
+
+      <button type="submit" class="btn-primary">Generate Policy</button>
+    </form>
+
+    <div id="output" class="policy-output" style="display:none;">
+      <h2>Generated Privacy Policy</h2>
+      <pre id="policyText"></pre>
+      <button id="downloadBtn" class="btn-secondary">Download as .txt</button>
+    </div>
+  </div>
+
+  <!-- Preview Banner Page -->
+  <div id="preview" class="page centered-container">
+    <h1>Cookie Banner Preview</h1>
+    <p>Select region to simulate geo-targeted banner:</p>
+    <select id="regionSelect" class="input-select">
+      <option value="EU">🇪🇺 EU (GDPR - Opt-In)</option>
+      <option value="US">🇺🇸 US (CCPA - Opt-Out)</option>
+      <option value="AU">🇦🇺 Australia (APP - Implied Consent)</option>
+      <option value="Other">🌍 Other</option>
+    </select>
+    <p><small>Banner will appear below.</small></p>
+    <div id="bannerContainer"></div>
+  </div>
+
+  <!-- Embed Widget Page -->
+  <div id="widget" class="page centered-container">
+    <h1>Generate Your Widget</h1>
+    <p>Customize and copy your embed code:</p>
+
+    <label>Company Name:
+      <input type="text" id="widgetCompany" value="My Company" />
+    </label>
+
+    <label>Region:
+      <select id="widgetRegion">
+        <option value="EU">EU (GDPR)</option>
+        <option value="US">US (CCPA)</option>
+        <option value="AU">Australia (APP)</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+
+    <div class="code-output">
+      <textarea id="embedCode" rows="5" readonly></textarea>
+    </div>
+
+    <button id="copyBtn" class="btn-primary">Copy Code</button>
+
+    <div id="previewWidget" style="margin-top:20px;padding:10px;border:1px dashed #ccc;">
+      <strong>Preview:</strong> This simulates the widget loading on your site.<br>
+      It would inject a geo-compliant cookie banner and add policy links to the footer.
+    </div>
+  </div>
+
+  <script>
+    // === PAGE NAVIGATION ===
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    // === POLICY GENERATOR ===
+    const defaultPolicy = `Your Company Privacy & Cookie Policy
+
+Effective Date: {{date}}
+
+1. Introduction
+We respect your privacy and are committed to protecting your personal data. This policy explains how we collect, use, and protect your information when you visit our website.
+
+2. Data We Collect
+- {{dataTypes}}
+
+3. Legal Basis by Region
+{{regionalCompliance}}
+
+4. Cookies
+We use essential and non-essential cookies. You may manage preferences via our consent banner.
+
+5. Your Rights
+Depending on your location, you may request access, deletion, or opt-out of data sales.
+
+6. Contact Us
+Email: support@yourcompany.com
+
+This document is a template. Consult a legal expert before deployment.`;
+
+    document.getElementById("policyForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("companyName").value;
+      const country = document.getElementById("country").value;
+
+      const dataCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const dataTypes = Array.from(dataCheckboxes)
+        .map(cb => cb.value)
+        .filter(val => ['email', 'cookies', 'location', 'analytics'].includes(val))
+        .join(", ") || "None specified";
+
+      const regions = Array.from(dataCheckboxes)
+        .map(cb => cb.value)
+        .filter(val => ['EU', 'US', 'AU'].includes(val));
+
+      let regionalCompliance = "";
+      if (regions.includes("EU")) regionalCompliance += "• EU (GDPR): Lawful basis required; opt-in consent.\n";
+      if (regions.includes("US")) regionalCompliance += "• US (CCPA): Right to opt-out of data sale.\n";
+      if (regions.includes("AU")) regionalCompliance += "• Australia (APP): Consent for sensitive data.\n";
+      if (regionalCompliance === "") regionalCompliance = "• No specific regions selected.\n";
+
+      const date = new Date().toLocaleDateString();
+
+      let policy = defaultPolicy
+        .replace("{{date}}", date)
+        .replace("{{dataTypes}}", dataTypes)
+        .replace("{{regionalCompliance}}", regionalCompliance);
+
+      document.getElementById("policyText").textContent = policy;
+      document.getElementById("output").style.display = "block";
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const text = document.getElementById("policyText").textContent;
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${document.getElementById("companyName").value.trim().replace(/[^a-z0-9]/gi, '_').toLowerCase()}_privacy_policy.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // === BANNER PREVIEW ===
+    const regionSelect = document.getElementById("regionSelect");
+    const bannerContainer = document.getElementById("bannerContainer");
+
+    function showBanner(region) {
+      bannerContainer.innerHTML = "";
+      let message, acceptLabel, showDecline = true;
+
+      if (region === "EU") {
+        message = "We use cookies to improve your experience. By continuing, you accept our use of cookies.";
+        acceptLabel = "Allow Cookies";
+      } else if (region === "US") {
+        message = "We may sell your data. You have the right to opt-out.";
+        acceptLabel = "Do Not Sell My Info";
+        showDecline = false;
+      } else if (region === "AU") {
+        message = "We use cookies. Continued use implies consent.";
+        acceptLabel = "Got It";
+        showDecline = false;
+      } else {
+        message = "We use cookies for analytics.";
+        acceptLabel = "Accept";
+      }
+
+      const banner = document.createElement("div");
+      banner.className = "banner";
+      banner.innerHTML = `
+        <p>${message}</p>
+        <button class="btn-banner btn-accept">${acceptLabel}</button>
+        ${showDecline ? `<button class="btn-banner btn-decline">Decline</button>` : ""}
+      `;
+      bannerContainer.appendChild(banner);
+
+      banner.querySelector(".btn-accept").addEventListener("click", () => {
+        console.log(`[Consent] User accepted cookies in ${region}`);
+        localStorage.setItem("flowconsent", JSON.stringify({ region, accepted: true }));
+        banner.remove();
+      });
+
+      if (showDecline) {
+        banner.querySelector(".btn-decline").addEventListener("click", () => {
+          console.log(`[Consent] User declined cookies in ${region}`);
+          localStorage.setItem("flowconsent", JSON.stringify({ region, accepted: false }));
+          banner.remove();
+        });
+      }
+    }
+
+    regionSelect.addEventListener("change", (e) => showBanner(e.target.value));
+    showBanner(regionSelect.value);
+
+    // === WIDGET GENERATOR ===
+    const companyInput = document.getElementById("widgetCompany");
+    const regionWidgetSelect = document.getElementById("widgetRegion");
+    const embedCode = document.getElementById("embedCode");
+    const copyBtn = document.getElementById("copyBtn");
+
+    function updateCode() {
+      const company = companyInput.value.replace(/"/g, '&quot;');
+      const region = regionWidgetSelect.value;
+      embedCode.value = `<script src="https://flowcompliance.com/embed.js" data-company="${company}" data-region="${region}"><\/script>`;
+    }
+
+    companyInput.addEventListener("input", updateCode);
+    regionWidgetSelect.addEventListener("change", updateCode);
+    updateCode();
+
+    copyBtn.addEventListener("click", () => {
+      embedCode.select();
+      try {
+        document.execCommand("copy");
+        alert("Embed code copied to clipboard!");
+      } catch (err) {
+        prompt("Copy to clipboard failed. Please manually copy:", embedCode.value);
+      }
+    });
+  </script>
+</body>
+</html>
